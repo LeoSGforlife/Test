@@ -57,8 +57,11 @@ class Grid():
         """
         Checks is the current state of the grid is sorte and returns the answer as a boolean.
         """
-        # TODO: implement this function (and remove the line "raise NotImplementedError").
-        raise NotImplementedError
+        for i in range(self.m): #We go through the array 
+            for j in range(self.n):
+                if self.state[i][j] != i*self.n + 1 + j: #for each case in the array we check if the content matches
+                    return False
+        return True
 
     def swap(self, cell1, cell2):
         """
@@ -69,9 +72,20 @@ class Grid():
         cell1, cell2: tuple[int]
             The two cells to swap. They must be in the format (i, j) where i is the line and j the column number of the cell. 
         """
-        # TODO: implement this function (and remove the line "raise NotImplementedError").
-        raise NotImplementedError
 
+        i,j = cell1
+        u,v = cell2
+
+        if (i != u or abs(j-v) != 1) and (j != v or abs(i-u) != 1): #We check if the permutation isn't allowed
+            raise "Not allowed"
+
+        cell = self.state[i][j] #We initialize the cells
+        cellBis = self.state[u][v]
+
+        self.state[i][j] = cellBis #We swap the cells
+        self.state[u][v] = cell
+        
+        
     def swap_seq(self, cell_pair_list):
         """
         Executes a sequence of swaps. 
@@ -82,9 +96,10 @@ class Grid():
             List of swaps, each swap being a tuple of two cells (each cell being a tuple of integers). 
             So the format should be [((i1, j1), (i2, j2)), ((i1', j1'), (i2', j2')), ...].
         """
-        # TODO: implement this function (and remove the line "raise NotImplementedError").
-        raise NotImplementedError
-
+        for move in cell_pair_list:
+            cell1, cell2 = move
+            self.swap(cell1, cell2)
+        
     @classmethod
     def grid_from_file(cls, file_name): 
         """
